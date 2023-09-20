@@ -7,7 +7,7 @@ const Contactus=()=>{
 
     const handleChange=(e)=>{
         const {name,value}=e.target;
-        console.log(formData);
+        // console.log(formData);
         setFormData((pervFormData)=>{
             return { ...pervFormData, [name]:value,}
 
@@ -16,7 +16,7 @@ const Contactus=()=>{
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const emailPattern = /^[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
         const inputEmail=formData.Email;
         setValidEmail(emailPattern.test(inputEmail));
         console.log(validEmail);
@@ -37,7 +37,7 @@ const Contactus=()=>{
             }
         }
         else{
-            alert("Please enter valid Email");
+            alert("Please enter a valid Email");
         }
     };
 

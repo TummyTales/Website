@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
     
     try {
         const result = await Cache.find({ email: searchEmail });
-        console.log('Matching users:', result);
+        // console.log('Matching users:', result);
         res.json(result);
       } catch (err) {
         console.error(err);

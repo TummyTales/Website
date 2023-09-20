@@ -14,6 +14,7 @@ const Image = () =>{
     const [responseFromServer, setResponseFromServer] = useState(null);
     const [isLoading,setIsLoading]=useState(false);
     const [cacheResult,setCacheResult]=useState(null);
+    const [minLoader, setMinLoader]=useState();
 
     function handleClick(inputText){
         setIngredientList((prevItems)=>{
@@ -35,14 +36,23 @@ const Image = () =>{
         console.log(user);
         if(isAuthenticated){
             try {
+                setMinLoader(true);
+                setTimeout(() => {
+                    setMinLoader(false);     
+                  }, 1000);
+
                 setIsLoading(true);
                 const data={user:user,ingredients:ingredientList};
                 const response = await axios.post('http://localhost:8000/api/data', data);
+                
                 setIngredientList([]);
+                setIsLoading(false);
+                setResponseFromServer(response.data);
+                 
 
                 if (response) {
                     // Request was successful
-                    setIsLoading(false);
+                    // setIsLoading(false);
                     setResponseFromServer(response.data);
                     // console.log(responseFromServer);
                 } else {
@@ -93,7 +103,7 @@ const Image = () =>{
 
 
         </div>
-        {isLoading && 
+        {(isLoading || minLoader) && 
         <Loader />
         }
         {cacheResult && !responseFromServer &&( 
@@ -111,7 +121,7 @@ const Image = () =>{
         
         
         
-        {responseFromServer && (
+        {responseFromServer && !minLoader && (
         
         <div className="flex flex-wrap">
         {responseFromServer.map((recipes,index)=>(

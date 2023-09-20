@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
-const Nav = () =>{
+const Nav = (props) =>{
     const {loginWithRedirect,logout,user,isAuthenticated}=useAuth0();
     const [isOpen, setIsOpen] = useState(false);
     
@@ -23,7 +23,15 @@ const Nav = () =>{
       if (isAuthenticated) {  
         const data={email:user.email};
         console.log('User email:', data);
-        axios.post('http://localhost:8000/login',data);
+        axios.post('http://localhost:8000/login',data)
+        .then((response) => {
+          console.log(response.data);
+          props.cacheFunction(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+       
       }
     }, [isAuthenticated,user]);
     

@@ -13,6 +13,7 @@ const Image = () =>{
     const [ingredientList,setIngredientList]=useState([]);
     const [responseFromServer, setResponseFromServer] = useState(null);
     const [isLoading,setIsLoading]=useState(false);
+    const [cacheResult,setCacheResult]=useState(null);
 
     function handleClick(inputText){
         setIngredientList((prevItems)=>{
@@ -65,7 +66,7 @@ const Image = () =>{
     return(
         <div>
         <div className="top-0 h-screen max-h-[100vh] w-screen bg-bottom bg-food bg-cover overflow-x-hidden">
-            <Nav />
+            <Nav cacheFunction={setCacheResult} />
             <div className="relative flex justify-left small:justify-center items-center top-40 ">
 
             <motion.div initial={{scale:0.90}} animate={{scale:1}} transition={{type:"spring"}} className="small:left-4 small:h-auto relative left-20 flex flex-col items-center bg-white w-[500px] mr-20 shadow-md shadow-black-700 border-[0.2px] border-gray rounded-sm" >
@@ -95,6 +96,18 @@ const Image = () =>{
         {isLoading && 
         <Loader />
         }
+        {cacheResult && !responseFromServer &&( 
+            <div className="flex flex-col items-center">
+            <div className="text-3xl font-jost font-bold underline">Past Searches</div>
+            <div className="flex flex-wrap">
+        {cacheResult.map((recipes,index)=>(
+            <Recipe  key={index} name={recipes.name} content={recipes.content} image={recipes.imageLink} recipe={recipes.recipeLink}/>
+
+        ))}
+        </div>
+        </div>
+        )}
+        
         
         
         

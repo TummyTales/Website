@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+
 const Cache=require('../models/cacheTable');
 
 async function cacheEntry(parsedData, email){

@@ -3,6 +3,7 @@ import {motion} from "framer-motion";
 import axios from "axios";
 const Contactus=()=>{
     const [formData,setFormData]=useState({FName:'',LName:'',Email:'',Review:''});
+    const [validEmail, setValidEmail]=useState(false);
 
     const handleChange=(e)=>{
         const {name,value}=e.target;
@@ -15,20 +16,28 @@ const Contactus=()=>{
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const inputEmail=formData.Email;
+        setValidEmail(emailPattern.test(inputEmail));
+        console.log(validEmail);
+        if(validEmail){
+            try {
+                const response = await axios.post('http://localhost:8000/contactus', formData);
+                setFormData({FName:'',LName:'',Email:'',Review:''});
 
-        try {
-            const response = await axios.post('http://localhost:8000/contactus', formData);
-            setFormData({FName:'',LName:'',Email:'',Review:''});
-
-            if (response.status === 200) {
-                // Request was successful
-                console.log(response.data.message);
-            } else {
-                // Handle errors here
-                console.error('Request failed');
+                if (response.status === 200) {
+                    // Request was successful
+                    console.log(response.data.message);
+                } else {
+                    // Handle errors here
+                    console.error('Request failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
+        }
+        else{
+            alert("Please enter valid Email");
         }
     };
 

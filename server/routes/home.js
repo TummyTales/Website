@@ -1,13 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
-const axios = require("axios");
 const getRecipes = require("../api/getRecipes")
-const getAllRecipesFromIngredientList = require("../api/getRecipes");
-const {get} = require("axios");
 const {parseRecipes} = require("../api/getRecipes");
 const mongoose=require('mongoose');
-const Cache=require('../models/cache');
+const cacheTable=require('../api/cacheTableEntry');
 
 mongoose.set('strictQuery',false);
 
@@ -50,26 +46,9 @@ router.post("/api/data",async  (req, res) => {
         .then(async (responseData) => {
             const parsedData=parseRecipes(responseData);
             await res.json(parsedData);
-            
-            await Cache.deleteMany({email:email});
-            
-            parsedData.map(async (recipeData) => {
-                const name=recipeData.name;
-                const imageLink=recipeData.imageLink;
-                const recipeLink=recipeData.recipeLink;
-               
-                const cache = new Cache({
-                   email:email,
-                   name: name,
-                   imageLink:imageLink,
-                   recipeLink: recipeLink, 
 
-                });
-
-                await cache.save();
-                
-              });
-    })
+            await cacheTable.cacheEntry(parsedData, email);             
+        })
         .catch((error) => {
         console.error("An Error Occurred :", error);
     });

@@ -16,7 +16,7 @@ const Contactus=()=>{
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const emailPattern = /^[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+        const emailPattern = /^[a-zA-Z0-9._]*@[a-z]+\.[a-z]{2,6}$/
         const inputEmail=formData.Email;
         setValidEmail(emailPattern.test(inputEmail));
         console.log(validEmail);

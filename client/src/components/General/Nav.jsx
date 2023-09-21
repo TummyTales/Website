@@ -25,8 +25,11 @@ const Nav = (props) =>{
         console.log('User email:', data);
         axios.post('http://localhost:8000/login',data)
         .then((response) => {
-          console.log(response.data);
-          props.cacheFunction(response.data);
+          if (response.data.length > 0) {
+            // Update the hook with response.data
+            props.cacheFunction(response.data);
+          }
+          
         })
         .catch((error) => {
           console.error(error);

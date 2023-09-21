@@ -1,5 +1,4 @@
-
-const Cache=require('../models/cacheTable');
+const Cache= require('../models/cacheTable');
 
 async function cacheEntry(parsedData, email){
     await Cache.deleteMany({email:email});

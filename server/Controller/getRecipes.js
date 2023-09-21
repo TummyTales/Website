@@ -1,5 +1,5 @@
 const axios = require("axios");
-const {response} = require("express");
+// const {response} = require("express");
 const websiteURL = process.env.WEBSITE_URL;
 
 // This function sends a GET request to the required API to get the
@@ -16,7 +16,7 @@ function getAllRecipesFromIngredientList(ingredientsList) {
             params: {
                 apiKey: process.env.API_KEY,
                 query: ingredientsParam,
-                number: 5
+                number: 20
             }
         })
             .then(function (response) {

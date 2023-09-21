@@ -1,30 +1,24 @@
 const express = require("express");
+const mongoose = require('mongoose');
 const cors = require("cors");
-const getRecipes = require("../api/getRecipes")
-const {parseRecipes} = require("../api/getRecipes");
-const mongoose=require('mongoose');
-const cacheTable=require('../api/cacheTableEntry');
+
+const getRecipes = require("../Controller/getRecipes")
+const {parseRecipes} = require("../Controller/getRecipes");
+const cacheTable=require('../Controller/cacheTableEntry');
 const Cache=require('../models/cacheTable');
-const Contact=require('../models/contactTable');
+const Contact=require('../models/contactUsTable');
 
 mongoose.set('strictQuery',false);
 
 const router = express.Router();
 
+// Middleware
 router.use(express.json());
-
 router.use(cors({
     origin: '*',
 }));
 
-router.get("/", (req, res) => {
-    res.send("Home page");
-});
-
-router.get("/about-us", (req, res) => {
-    res.send("About us page");
-});
-
+// Routes
 router.post('/contactus', async (req, res) => {
     const { FName, LName, Email, Review } = req.body;
 
@@ -46,7 +40,6 @@ router.post('/contactus', async (req, res) => {
 router.post("/login", async (req, res) => {
     const data=req.body;
     const searchEmail=data.email;
-    
     try {
         const result = await Cache.find({ email: searchEmail });
         // console.log('Matching users:', result);
@@ -54,9 +47,6 @@ router.post("/login", async (req, res) => {
       } catch (err) {
         console.error(err);
       }
-      
-
-   
 });
 
 

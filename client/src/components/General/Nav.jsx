@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
 import Logo from '../General/logo';
+import StaticLogo from './StaticLogo';
 
 const Nav = (props) =>{
     const {loginWithRedirect,logout,user,isAuthenticated}=useAuth0();
@@ -19,6 +20,7 @@ const Nav = (props) =>{
 
     // Check if the current location pathname matches either '/' or '/About'
     const textColorClass = locationPath === '/' || locationPath === '/about' ? 'text-white':'text-black';
+    const logoColorClass = locationPath === '/about' ? {firstColor:'#7b7b7d',secondColor:'white'}:{firstColor:'#202021',secondColor:'#656565'};
     
     useEffect(() => {
       // Check if authentication is complete and the user is available
@@ -55,7 +57,7 @@ const Nav = (props) =>{
     
     return(
         <div className={`relative z-10 flex items-center justify-between mt-0 h-[60px] pl-10 pr-20 ${textColorClass}`}>
-            <div className='mt-5'><Logo /></div>
+            <div className='mt-5'><Link to='/'>{locationPath==='/'?<Logo />:<StaticLogo colorObject={logoColorClass}/>}</Link></div>
             <div className="flex justify-around text-xl font-fjalla small:relative small:top-10 small:justify-between">
                 <Link to="/about"> <button className="mr-20 h-full hover:font-bold">AboutUs</button></Link>
                 <Link to="/contact"><button className="h-full w-full hover:font-bold">Contact</button></Link>

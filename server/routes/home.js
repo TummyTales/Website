@@ -74,6 +74,7 @@ router.post("/api/data", (req, res) => {
 router.post("/cache", async (req, res) => {
     const data=req.body;
     const searchEmail=data.email;
+    const id=data.id;
     try {
             const parsedData={name:data.name, imageLink:data.imageLink, recipeLink:data.recipeLink }
             await cacheTable.cacheEntry(parsedData, searchEmail);

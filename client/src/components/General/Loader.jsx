@@ -1,8 +1,28 @@
 import { motion } from 'framer-motion';
 
 const Loader = () => {
+     const loaderVariants = {
+          initial: {
+            opacity: 0,
+           
+          },
+          animate: {
+            opacity: 1,
+            y: '0',
+            transition: {
+              duration: 0.5, // Adjust the duration as needed
+            },
+          },
+          exit: {
+            opacity: 0,
+            
+            transition: {
+              duration: 0.5, // Adjust the duration as needed
+            },
+          },
+        };
   return (
-    <div className='flex justify-center mt-5 mb-10'>
+    <motion.div className='flex justify-center mt-5 mb-10' variants={loaderVariants} initial='initial' animate='animate' exit='exit'>
         <svg width="135" height="140" viewBox="0 0 135 140" xmlns="http://www.w3.org/2000/svg" fill="#6c6c6f">
     <rect y="10" width="15" height="120" rx="6">
         <animate attributeName="height"
@@ -56,7 +76,7 @@ const Loader = () => {
     </rect>
 </svg>
 
-        </div>
+        </motion.div>
   );
 };
 

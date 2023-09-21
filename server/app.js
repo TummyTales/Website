@@ -1,3 +1,4 @@
+
 const express = require("express");
 const dotenv = require("dotenv")
 const app = express();
@@ -15,7 +16,6 @@ app.use("/", homeRoutes);
 // app.use("/login", authRoutes);
 
 
-
 const start= async()=>{
     try{
         await mongoose.connect(conn);
@@ -28,6 +28,5 @@ const start= async()=>{
     }
 
 };
-
 start();
 

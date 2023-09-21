@@ -109,7 +109,7 @@ const Image = () =>{
         {cacheResult && !responseFromServer &&( 
             <div className="flex flex-col items-center">
             <div className="text-3xl font-jost font-bold underline">Past Searches</div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap justify-around">
         {cacheResult.map((recipes,index)=>(
             <Recipe  key={index} name={recipes.name} content={recipes.content} image={recipes.imageLink} recipe={recipes.recipeLink}/>
 
@@ -123,7 +123,7 @@ const Image = () =>{
         
         {responseFromServer && !minLoader && (
         
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap justify-around">
         {responseFromServer.map((recipes,index)=>(
             <Recipe  key={index} name={recipes.name} content={recipes.content} image={recipes.imageLink} recipe={recipes.recipeLink}/>
 

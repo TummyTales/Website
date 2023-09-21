@@ -56,19 +56,31 @@ router.post("/login", async (req, res) => {
 router.post("/api/data", (req, res) => {
     const data = req.body;
     const ingredientList=data.ingredients;
-    const user=data.user;
-    const email=user.email;
+    // const user=data.user;
+    // const email=user.email;
 
     getRecipes.getAllRecipesFromIngredientList(ingredientList)
         .then(async (responseData) => {
             const parsedData=parseRecipes(responseData);
-            await res.json(parsedData);
+            res.json(parsedData);
 
-            await cacheTable.cacheEntry(parsedData, email);             
+            // await cacheTable.cacheEntry(parsedData, email);             
         })
         .catch((error) => {
         console.error("An Error Occurred :", error);
     });
+});
+
+router.post("/cache", async (req, res) => {
+    const data=req.body;
+    const searchEmail=data.email;
+    try {
+            const parsedData={name:data.name, imageLink:data.imageLink, recipeLink:data.recipeLink }
+            await cacheTable.cacheEntry(parsedData, searchEmail);
+       
+      } catch (err) {
+        console.error(err);
+      }
 });
 
 module.exports = router;

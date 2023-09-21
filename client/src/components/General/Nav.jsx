@@ -4,6 +4,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
+import Logo from '../General/logo';
+
 const Nav = (props) =>{
     const {loginWithRedirect,logout,user,isAuthenticated}=useAuth0();
     const [isOpen, setIsOpen] = useState(false);
@@ -53,7 +55,7 @@ const Nav = (props) =>{
     
     return(
         <div className={`relative z-10 flex items-center justify-between mt-0 h-[60px] pl-10 pr-20 ${textColorClass}`}>
-            <Link to="/"><div className="small:text-red-400 w-1 font-fjalla text-3xl font-bold italic">TummyTales</div></Link>
+            <div className='mt-5'><Logo /></div>
             <div className="flex justify-around text-xl font-fjalla small:relative small:top-10 small:justify-between">
                 <Link to="/about"> <button className="mr-20 h-full hover:font-bold">AboutUs</button></Link>
                 <Link to="/contact"><button className="h-full w-full hover:font-bold">Contact</button></Link>

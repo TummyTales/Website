@@ -5,6 +5,8 @@ import Instagram from './Instagram';
 import Twitter from './Twitter';
 import CardInfo from "../ContactUsPage/CardInfo";
 import { Link } from 'react-router-dom'; 
+import StaticLogo from './StaticLogo';
+
 const Footer=()=>{
 
     return(
@@ -12,7 +14,7 @@ const Footer=()=>{
    
     <div className='relative mt-1 items-center justify-around flex flex-wrap border-b-[0.5px] border-gray-700 pb-6 mb-5'>
         <div className="flex flex-col flex-wrap justify-center items-center basis-1/2 border-r-[1px] small:border-0 border-stone-50 h-[100px]">
-            <div className="text-white text-center font-fjalla text-6xl italic">TummyTales</div>
+           <div className='flex'><StaticLogo /><div className="text-white text-center font-fjalla mt-5 text-4xl italic">ummyTales</div></div> 
             <div className='relative flex top-6'><div className='mr-2' ><Facebook /></div><div className='mr-2'><Twitter /></div><div className='mr-2'><Instagram /></div></div>
         </div>
         <div className="flex flex-col basis-1/2 w-1/2 font-jost">

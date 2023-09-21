@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const cors = require("cors");
 const { google } = require('googleapis');
 const nodemailer = require('nodemailer');
-const getRecipes = require("../Controller/getRecipes")
-const {parseRecipes} = require("../Controller/getRecipes");
-const cacheTable=require('../Controller/cacheTableEntry');
+const getRecipes = require("../controller/getRecipes")
+const {parseRecipes} = require("../controller/getRecipes");
+const cacheTable=require('../controller/cacheTableEntry');
 const Cache=require('../models/cacheTable');
 const Contact=require('../models/contactUsTable');
-const sendMail = require("../Controller/sendEmail")
+const sendMail = require("../controller/sendEmail")
 
 mongoose.set('strictQuery',false);
 

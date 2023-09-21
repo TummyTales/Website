@@ -1,3 +1,4 @@
+
 const express = require("express");
 const dotenv = require("dotenv")
 const app = express();
@@ -13,7 +14,6 @@ const homeRoutes = require("./routes/home");
 
 app.use("/", homeRoutes);
 // app.use("/login", authRoutes);
-
 
 
 const start= async()=>{

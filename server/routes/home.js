@@ -8,7 +8,7 @@ const {parseRecipes} = require("../controller/getRecipes");
 const cacheTable=require('../controller/cacheTableEntry');
 const Cache=require('../models/cacheTable');
 const Contact=require('../models/contactUsTable');
-const sendMail = require("../controller/sendEmail")
+const sendmail = require("../controller/sendEmail")
 
 mongoose.set('strictQuery',false);
 
@@ -36,8 +36,7 @@ router.post('/contactus', async (req, res) => {
         console.error(error);
         res.status(200).json({ message: 'Error submitting the form.' });
     }
-    console.log(sendMail(Email))
-    console.log("EMail sent")
+    await sendmail.sendMail(Email)
 });
 
 

@@ -9,6 +9,7 @@ const cacheTable=require('../controller/cacheTableEntry');
 const Cache=require('../models/cacheTable');
 const Contact=require('../models/contactUsTable');
 const sendmail = require("../controller/sendEmail")
+const recipeinfo = require("../controller/recipeInfo")
 
 mongoose.set('strictQuery',false);
 
@@ -75,6 +76,7 @@ router.post("/cache", async (req, res) => {
     const data=req.body;
     const searchEmail=data.email;
     const id=data.id;
+    // recipeinfo.getRecipeInfo(id).then(response => console.log(recipeinfo.parseRecipeData(response)))
     try {
             const parsedData={name:data.name, imageLink:data.imageLink, recipeLink:data.recipeLink }
             await cacheTable.cacheEntry(parsedData, searchEmail);

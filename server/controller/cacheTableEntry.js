@@ -14,11 +14,13 @@ async function cacheEntry(parsedData, email){
             const earliestEntry = await Cache.findOne({ email }).sort('createdAt');
             await Cache.findByIdAndRemove(earliestEntry._id);
         }
+        const id=parsedData.id;
         const name=parsedData.name;
         const imageLink=parsedData.imageLink;
         const recipeLink=parsedData.recipeLink;
         const date=new Date();
         const cache = new Cache({
+            _id:id,
             email:email,
             name: name,
             imageLink:imageLink,

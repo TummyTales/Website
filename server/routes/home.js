@@ -78,12 +78,30 @@ router.post("/cache", async (req, res) => {
     const id=data.id;
     // recipeinfo.getRecipeInfo(id).then(response => console.log(recipeinfo.parseRecipeData(response)))
     try {
-            const parsedData={name:data.name, imageLink:data.imageLink, recipeLink:data.recipeLink }
+            const parsedData={id:id, name:data.name, imageLink:data.imageLink, recipeLink:data.recipeLink }
             await cacheTable.cacheEntry(parsedData, searchEmail);
        
       } catch (err) {
         console.error(err);
       }
+});
+router.post("/recipe", async (req, res) => {
+        const data=req.body;
+        const id=data.id;
+        console.log(id);
+        // recipeinfo.getRecipeInfo(id).then(response => console.log(recipeinfo.parseRecipeData(response)))
+        recipeinfo.getRecipeInfo(id)
+        .then(async (responseData) => {
+
+            const parsedData=recipeinfo.parseRecipeData(responseData);
+            console.log(parsedData);
+            res.json(parsedData);
+          
+        })
+        .catch((error) => {
+        console.error("An Error Occurred :", error);
+    });
+
 });
 
 module.exports = router;

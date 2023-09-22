@@ -34,7 +34,7 @@ const Image = () =>{
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user);
+        // console.log(user);
         if(isAuthenticated){
             try {
                 setMinLoader(true);
@@ -51,18 +51,17 @@ const Image = () =>{
                 console.log(response.data);
                 
                 setIngredientList([]);
-                setIsLoading(false);
-                setResponseFromServer(response.data);
-                 
 
                 if (response) {
                     // Request was successful
                     // setIsLoading(false);
                     setResponseFromServer(response.data);
+                    setIsLoading(false);
                     // console.log(responseFromServer);
                 } else {
                     // Handle errors here
                     console.error('Request failed');
+                    setIsLoading(false);
                 }
            
             } 
@@ -84,7 +83,7 @@ const Image = () =>{
     return(
         <div>
         <div className="top-0 h-screen max-h-[100vh] w-screen bg-bottom bg-food bg-cover overflow-x-hidden">
-            <Nav cacheFunction={setCacheResult} />
+            <Nav setCacheDataReceived={setCacheResult} />
             <div className="relative flex justify-left small:justify-center items-center top-40 ">
 
             <motion.div initial={{scale:0.90}} animate={{scale:1}} transition={{type:"spring"}} className="small:left-4 small:h-auto relative left-20 flex flex-col items-center bg-white w-[500px] mr-20 shadow-md shadow-black-700 border-[0.2px] border-gray rounded-lg" >
@@ -95,7 +94,7 @@ const Image = () =>{
                 <ul className="w-[200px]">
                 
                 {ingredientList.map((ingredients,index)=>(
-                    <Ingredients key={index} id={index} text={ingredients} onChecked={deleteItem}/>
+                    <Ingredients key={ingredients} id={index} text={ingredients} onChecked={deleteItem}/>
                 ))}  
                 </ul>
                 </div>
@@ -130,10 +129,10 @@ const Image = () =>{
             <motion.div 
                 initial={{opacity:0,translateX:-50}}
                 animate={{opacity:1,translateX:0}}
-                transition={{duration:0.5, delay:index*0.3}}>
-                <Recipe
-                key={index}
-                id={recipes.id}
+                transition={{duration:0.5, delay:index*0.3}}
+                key={index}>
+                <Recipe     
+                id={recipes._id}
                 name={recipes.name}
                 content={recipes.content}
                 image={recipes.imageLink}
@@ -166,9 +165,9 @@ const Image = () =>{
                         <motion.div 
                         initial={{opacity:0,translateX:-50,translateY:-50}}
                         animate={{opacity:1,translateX:0,translateY:0}}
-                        transition={{duration:0.3, delay:index*0.2}}>
+                        transition={{duration:0.3, delay:index*0.2}}
+                        key={index}>
                         <Recipe
-                        key={index}
                         id={recipes.id}
                         name={recipes.name}
                         content={recipes.content}

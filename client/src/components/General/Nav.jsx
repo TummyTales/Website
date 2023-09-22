@@ -7,7 +7,7 @@ import axios from 'axios';
 import Logo from '../General/logo';
 import StaticLogo from './StaticLogo';
 
-const Nav = (props) =>{
+const Nav = ({setCacheDataReceived}) =>{
     const {loginWithRedirect,logout,user,isAuthenticated}=useAuth0();
     const [isOpen, setIsOpen] = useState(false);
     
@@ -24,22 +24,23 @@ const Nav = (props) =>{
     
     useEffect(() => {
       // Check if authentication is complete and the user is available
-      if (isAuthenticated) {  
-        const data={email:user.email};
-        console.log('User email:', data);
-        axios.post('http://localhost:8000/login',data)
-        .then((response) => {
-          if (response.data.length > 0) {
-            // Update the hook with response.data
-            props.cacheFunction(response.data);
-          }
-          
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if(setCacheDataReceived){
+        if (isAuthenticated) {  
+          const data={email:user.email};
+          console.log('User email:', data);
+          axios.post('http://localhost:8000/login',data)
+          .then((response) => {
+            if (response.data.length > 0) {
+              // Update the hook with response.data
+              setCacheDataReceived(response.data);
+            }
+            
+          })
+          .catch((error) => {
+            console.error(error);
+          });
        
-      }
+      }}
     }, [isAuthenticated,user]);
     
     

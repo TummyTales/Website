@@ -28,7 +28,8 @@ module.exports = {
       },
       fontFamily:{
         'fjalla':['Fjalla One'],
-        'jost':['Jost']
+        'jost':['Jost'],
+        'ubuntu':['Ubuntu'],
   
       },
       colors: {

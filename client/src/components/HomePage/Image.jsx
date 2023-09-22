@@ -7,6 +7,7 @@ import Nav from '../General/Nav';
 import Recipe from './Recipe'
 import Loader from '../General/Loader'
 import { useAuth0 } from '@auth0/auth0-react';
+
 const Image = () =>{
     const {loginWithRedirect,user,isAuthenticated }=useAuth0();
     
@@ -123,7 +124,8 @@ const Image = () =>{
         
         {cacheResult && !responseFromServer &&( 
             <div className="flex flex-col items-center">
-            <div className="text-3xl font-jost font-bold underline">Past Searches</div>
+            <div className="text-3xl font-jost border-y-[2px] border-gray-500">Past Searches</div>
+            
             <div className="flex flex-wrap justify-around">
         {cacheResult.map((recipes,index)=>(
             <motion.div 
@@ -155,7 +157,7 @@ const Image = () =>{
                     initial={{y:-15}}
                     animate={{y:0}}
                     transition={{type:'spring', duration:0.2}}
-                    className="text-3xl font-jost font-bold underline"
+                    className="text-3xl font-jost border-y-[2px] border-gray-500"
                     >
                     Result
                     </motion.div>

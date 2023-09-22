@@ -3,7 +3,6 @@ import {motion} from "framer-motion";
 import axios from "axios";
 const Contactus=()=>{
     const [formData,setFormData]=useState({FName:'',LName:'',Email:'',Review:''});
-    const [validEmail, setValidEmail]=useState(false);
 
     const handleChange=(e)=>{
         const {name,value}=e.target;
@@ -16,11 +15,6 @@ const Contactus=()=>{
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const emailPattern = /^[a-zA-Z0-9._]*@[a-z]+\.[a-z]{2,6}$/
-        const inputEmail= formData.Email;
-        setValidEmail(emailPattern.test(inputEmail));
-        console.log(validEmail);
-        if(validEmail){
             try {
                 const response = await axios.post('http://localhost:8000/contactus', formData);
                 setFormData({FName:'',LName:'',Email:'',Review:''});
@@ -35,10 +29,7 @@ const Contactus=()=>{
             } catch (error) {
                 console.error('Error:', error);
             }
-        }
-        else{
-            alert("Please enter a valid Email");
-        }
+
     };
 
     return(

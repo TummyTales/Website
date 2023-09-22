@@ -16,6 +16,7 @@ async function cacheEntry(parsedData, email){
         }
         const id=parsedData.id;
         const name=parsedData.name;
+        const content=parsedData.content;
         const imageLink=parsedData.imageLink;
         const recipeLink=parsedData.recipeLink;
         const date=new Date();
@@ -23,6 +24,7 @@ async function cacheEntry(parsedData, email){
             _id:id,
             email:email,
             name: name,
+            content:content,
             imageLink:imageLink,
             recipeLink: recipeLink, 
             createdAt: date,

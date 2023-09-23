@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import Ingredients from './Ingredients';
 import InputArea from "./InputArea";
-import {AnimatePresence, motion, stagger} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 import axios from "axios";
 import Nav from '../General/Nav';
 import Recipe from './Recipe'
@@ -17,6 +17,7 @@ const Image = () =>{
     const [cacheResult,setCacheResult]=useState(null);
     const [minLoader, setMinLoader]=useState();
     const targetSectionRef = useRef(null);
+    
 
     function handleClick(inputText){
         setIngredientList((prevItems)=>{
@@ -116,8 +117,7 @@ const Image = () =>{
         <AnimatePresence>
         <div ref={targetSectionRef} className="relative mt-4">
         {(isLoading || minLoader) && 
-            <motion.div initial={{opacity:0}} animate={{opacity:1,transition:{duration:0.2}}}
-            exit={{x:100,transition:{duration:0.5}}}>
+            <motion.div initial={{opacity:0}} animate={{opacity:1,transition:{duration:0.2}}}>
             <Loader />
             </motion.div>
         }

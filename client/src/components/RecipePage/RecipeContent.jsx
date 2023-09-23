@@ -43,6 +43,9 @@ const RecipeContent=()=>{
     }
     fetchData();
       }, []);
+      const capitalizeFirstLetter = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      };
 
 
     return(
@@ -56,6 +59,32 @@ const RecipeContent=()=>{
             </motion.div>
 
         }
+        </div>
+        <div>
+            {(responseFromServer && !minLoader &&
+              <div className='flex flex-col items-center'>
+              
+              
+              <div><img src={responseFromServer.imageURL} width='500px' height='400px'></img></div>
+              
+              <div className='mt-20'>
+              <div className="text-2xl font-bold font-jost">Key Ingredients</div>
+              <div className='flex flex-col flex-wrap'>
+              {responseFromServer.extendedIngredients.map((ingredients,index)=>(
+                
+                    <div key={index} className="flex flex-col flex-wrap mt-1 font-jost">
+                     <div className='text-xl'>{capitalizeFirstLetter(ingredients.name)} </div>
+                     <div className='flex text-sm'><>{ingredients.amount}</><>{ingredients.unit}</></div>
+                    </div>
+                    
+                )
+                )}</div>
+                </div> 
+              
+              
+              <div className="m-10" dangerouslySetInnerHTML={{ __html: responseFromServer.summary }} />
+              </div>
+            )}
         </div>
         </AnimatePresence>
     </div>

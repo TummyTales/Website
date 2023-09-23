@@ -134,7 +134,7 @@ const Image = () =>{
                 transition={{duration:0.5, delay:index*0.3}}
                 key={index}>
                 <Recipe     
-                id={recipes._id}
+                id={recipes.recipeId}
                 name={recipes.name}
                 content={recipes.content}
                 image={recipes.imageLink}

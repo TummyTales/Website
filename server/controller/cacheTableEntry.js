@@ -21,8 +21,8 @@ async function cacheEntry(parsedData, email){
         const recipeLink=parsedData.recipeLink;
         const date=new Date();
         const cache = new Cache({
-            _id:id,
             email:email,
+            recipeId:id,
             name: name,
             content:content,
             imageLink:imageLink,

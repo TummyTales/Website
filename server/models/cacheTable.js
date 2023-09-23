@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const cacheSchema = new mongoose.Schema({
-    _id:Number,
     email: String,
+    recipeId:Number,
     name: String,
     content:String,
     imageLink: String,

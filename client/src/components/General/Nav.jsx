@@ -19,7 +19,7 @@ const Nav = ({setCacheDataReceived}) =>{
     const locationPath = location.pathname; // Assuming you have access to the location pathname
 
     // Check if the current location pathname matches either '/' or '/About'
-    const textColorClass = locationPath === '/' || locationPath === '/about' ? 'text-white':'text-black';
+    const textColorClass = locationPath === '/' || locationPath === '/about' || locationPath.includes('/recipe') ? 'text-white':'text-black';
     const logoColorClass = locationPath === '/' ? {firstColor:'#7b7b7d',secondColor:'white'}:{firstColor:'#202021',secondColor:'#656565'};
     
     useEffect(() => {

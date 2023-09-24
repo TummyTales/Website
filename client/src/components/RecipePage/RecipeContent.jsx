@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Loader from '../General/Loader';
 import { motion, AnimatePresence } from "framer-motion";
+import Nav from '../General/Nav';
 
 const speak = (htmlContent) => {
   let msg = new SpeechSynthesisUtterance(htmlContent);
@@ -67,6 +68,7 @@ const RecipeContent = () => {
 
   return (
     <div className="bg-gray-900 text-white min-h-screen p-6">
+     <Nav />
       <AnimatePresence>
         <div className="relative mt-4">
           {(isLoading || minLoader) &&

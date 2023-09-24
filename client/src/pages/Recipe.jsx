@@ -6,7 +6,7 @@ export default function Recipe() {
     return (
       
       <div className="relative overflow-x-hidden">
-        <Nav />
+        
         <RecipeContent />
 
         <Footer />

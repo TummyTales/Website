@@ -49,6 +49,7 @@ module.exports = {
         'colour': "url('./assets/wave.png')",
         'front': "url('./assets/front.jpg')",
         'mid':"url('./assets/mid.jpg')",
+        'recipe':"url('./assets/recbg.avif)"
         
       },
     },

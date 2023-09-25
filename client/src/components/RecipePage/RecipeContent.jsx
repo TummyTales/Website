@@ -5,23 +5,12 @@ import Loader from '../General/Loader';
 import { motion, AnimatePresence } from "framer-motion";
 import Nav from '../General/Nav';
 
-const speak = (htmlContent) => {
-  let msg = new SpeechSynthesisUtterance(htmlContent);
-  window.speechSynthesis.speak(msg);
-  const toggle = document.getElementById('toggle')
-  if (toggle.textContent === "Get Cooking Instructions") {
-    toggle.innerHTML = "Stop"
-  } else {
-    toggle.innerHTML = "Get Cooking Instructions"
-    window.speechSynthesis.cancel();
-  }
-}
-
 const RecipeContent = () => {
   const { data } = useParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [minLoader, setMinLoader] = useState();
+  const [minLoader, setMinLoader] = useState(false);
   const [responseFromServer, setResponseFromServer] = useState(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,10 +43,23 @@ const RecipeContent = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  const speak = () => {
+    if (responseFromServer) {
+      const instructionsToSpeak = responseFromServer.parsedData2.instructions.map((instruction) => instruction.step).join(' ');
+      if (!isSpeaking) {
+        let msg = new SpeechSynthesisUtterance(instructionsToSpeak);
+        window.speechSynthesis.speak(msg);
+        setIsSpeaking(true);
+      } else {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+      }
+    }
+  };
 
   return (
     <div className="bg-gray-900 text-white min-h-screen p-6">
-     <Nav />
+      <Nav />
       <AnimatePresence>
         <div className="relative mt-4">
           {(isLoading || minLoader) &&
@@ -72,74 +74,55 @@ const RecipeContent = () => {
             <div className='flex items-start justify-center'>
               {/* Left Card */}
               <div className="rounded-lg overflow-hidden shadow-md bg-gray-800 text-gray-300 mx-4 my-4 p-4 max-w-sm text-center w-1/5">
-                
-                
                 <img src={responseFromServer.parsedData1.imageURL} width='500px' height='400px' alt="Recipe" className="rounded-lg mx-auto mb-1" />
                 <h5 className="text-xl text-gray-500 font-jost mb-6">{responseFromServer.parsedData1.title}</h5>
-                <div className="text-2xl font-bold font-jost mb-2">Key Ingredients</div>                
-                <div className='flex flex-col items-start'>                              
+                <div className="text-2xl font-bold font-jost mb-2">Key Ingredients</div>
+                <div className='flex flex-col items-start'>
                   {responseFromServer.parsedData1.extendedIngredients.map((ingredients, index) => (
                     <div key={index} className="w-full flex items-center justify-between mt-2 mb-2 font-jost">
-                      
                       <div className='text-xl text-white'>
                         {capitalizeFirstLetter(ingredients.name)}
                       </div>
-                     
-                        <div className="flex text-sm italic text-gray-600 ">
+                      <div className="flex text-sm italic text-gray-600">
                         <div>{ingredients.amount}</div>
                         <div>{ingredients.unit}</div>
-                        </div>
-                   
-                    </div>
-                  ))}                
-                </div>
-              </div>
-              
-              
-              {/* Right Card */}
-              <div className='flex flex-col w-4/5'>
-              <div className="relative top-10 rounded-lg overflow-hidden shadow-md bg-gray-800 text-gray-300 mx-4 p-4 w-full">
-                <div className="text-xl font-bold font-jost">
-                  <div className="m-10" dangerouslySetInnerHTML={{ __html: responseFromServer.parsedData1.summary }} />
-                </div>
-
-                </div>
-              
-            
-            
-            
-            <div className="mt-20 flex flex-col bg-gray-800 p-4">
-            <div className='text-2xl font-jost w-full text-center mb-7 font-bold '  >Instructions</div>
-            {responseFromServer.parsedData2.instructions.map((instructions, index) => (
-                    <div key={index} className="w-full flex items-center justify-start mt-2 mb-2 font-jost">
-                      
-                      <div className='flex mb-2 font-jost '>
-                      <div className='text-xl text-white'>
-                        {instructions.number}
                       </div>
-                     
-                 
-                        <div className='ml-5 top-2 text-xl'>{instructions.step}</div>
-                      </div>
-                      
-                     
                     </div>
                   ))}
-
-                  <div className="text-center mt-4">
-                  <button id="toggle" type="submit" onClick={() => speak(responseFromServer.parsedData2.instructions.step)} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
-                  Get Cooking Instructions
-                  </button>
                 </div>
+              </div>
+              {/* Right Card */}
+              <div className='flex flex-col w-4/5'>
+                <div className="relative top-10 rounded-lg overflow-hidden shadow-md bg-gray-800 text-gray-300 mx-4 p-4 w-full">
+                  <div className="text-xl font-bold font-jost">
+                    <div className="m-10" dangerouslySetInnerHTML={{ __html: responseFromServer.parsedData1.summary }} />
                   </div>
+                </div>
+                <div className="mt-20 flex flex-col bg-gray-800 p-4">
+                  <div className="text-2xl font-jost w-full text-center mb-7 font-bold">
+                    Instructions
                   </div>
-            
-            
-            
+                  {responseFromServer.parsedData2.instructions.map((instructions, index) => (
+                    <div key={index} className="w-full flex items-center justify-start mt-2 mb-2 font-jost">
+                      <div className="flex mb-2 font-jost">
+                        <div className="text-xl text-white">{instructions.number}</div>
+                        <div className="ml-5 top-2 text-xl">{instructions.step}</div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="text-center mt-4">
+                    <button
+                      id="toggle"
+                      type="submit"
+                      onClick={speak}
+                      className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+                    >
+                      {isSpeaking ? 'Stop' : 'Get Cooking Instructions'}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-
-
- 
           )}
         </div>
       </AnimatePresence>

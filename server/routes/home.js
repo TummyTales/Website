@@ -10,6 +10,7 @@ const Cache=require('../models/cacheTable');
 const Contact=require('../models/contactUsTable');
 const sendmail = require("../controller/sendEmail")
 const recipeinfo = require("../controller/recipeInfo")
+const instructions=require('../controller/instructions');
 
 mongoose.set('strictQuery',false);
 
@@ -89,19 +90,22 @@ router.post("/recipe", async (req, res) => {
         const data=req.body;
         const id=data.id;
         console.log(id);
-        // recipeinfo.getRecipeInfo(id).then(response => console.log(recipeinfo.parseRecipeData(response)))
-        recipeinfo.getRecipeInfo(id)
-        .then(async (responseData) => {
-
-            const parsedData=recipeinfo.parseRecipeData(responseData);
-            console.log(parsedData);
-            res.json(parsedData);
-          
-        })
-        .catch((error) => {
-        console.error("An Error Occurred :", error);
+        try {
+            const [parsedData1, parsedData2] = await Promise.all([
+                recipeinfo.getRecipeInfo(id).then(responseData => recipeinfo.parseRecipeData(responseData)),
+                instructions.getInstructions(id).then(responseData => instructions.parseInstructions(responseData))
+            ]);
+            console.log(parsedData1);
+            console.log(parsedData2);
+    
+            res.json({
+                parsedData1: parsedData1,
+                parsedData2: parsedData2
+            });
+        } catch (error) {
+            console.error("An Error Occurred:", error);
+            res.status(500).json({ error: "An error occurred" });
+        }
     });
-
-});
 
 module.exports = router;

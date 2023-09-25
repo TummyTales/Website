@@ -54,17 +54,6 @@ const RecipeContent = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
-
-  const toggleIngredient = (ingredient) => {
-    setSelectedIngredients((prevSelectedIngredients) => {
-      if (prevSelectedIngredients.includes(ingredient)) {
-        return prevSelectedIngredients.filter((item) => item !== ingredient);
-      } else {
-        return [...prevSelectedIngredients, ingredient];
-      }
-    });
-  };
 
   return (
     <div className="bg-gray-900 text-white min-h-screen p-6">
@@ -80,42 +69,77 @@ const RecipeContent = () => {
         </div>
         <div>
           {(responseFromServer && !minLoader) && (
-            <div className='flex items-center justify-center'>
+            <div className='flex items-start justify-center'>
               {/* Left Card */}
-              <div className="rounded-lg overflow-hidden shadow-md bg-gray-800 text-gray-300 mx-4 my-4 p-4 max-w-sm text-center">
-                <img src={responseFromServer.imageURL} width='500px' height='400px' alt="Recipe" className="rounded-lg mx-auto mb-4" />
-                <h5 className="text-xl font-semibold mb-4">{responseFromServer.title}</h5>
-                <div className="text-2xl font-bold font-jost mb-2">Key Ingredients</div>
-                <div className='flex flex-col items-start'>
-                  {responseFromServer.extendedIngredients.map((ingredients, index) => (
-                    <div key={index} className="flex items-center justify-start mt-2 font-jost">
-                      <button
-                        onClick={() => toggleIngredient(ingredients.name)}
-                        className={`mr-2 rounded-full border text-gray-300 ${selectedIngredients.includes(ingredients.name) ? 'bg-green-500 border-green-500' : 'bg-gray-600 border-gray-600'}`}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M2.293 9.293a1 1 0 011.414 0L9 14.586l6.293-6.293a1 1 0 111.414 1.414l-7 7a1 1 0 01-1.414 0l-7-7a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
-                      </button>
-                      <div className={`text-xl ${selectedIngredients.includes(ingredients.name) ? 'line-through text-gray-400' : 'text-white'}`}>
+              <div className="rounded-lg overflow-hidden shadow-md bg-gray-800 text-gray-300 mx-4 my-4 p-4 max-w-sm text-center w-1/5">
+                
+                
+                <img src={responseFromServer.parsedData1.imageURL} width='500px' height='400px' alt="Recipe" className="rounded-lg mx-auto mb-1" />
+                <h5 className="text-xl text-gray-500 font-jost mb-6">{responseFromServer.parsedData1.title}</h5>
+                <div className="text-2xl font-bold font-jost mb-2">Key Ingredients</div>                
+                <div className='flex flex-col items-start'>                              
+                  {responseFromServer.parsedData1.extendedIngredients.map((ingredients, index) => (
+                    <div key={index} className="w-full flex items-center justify-between mt-2 mb-2 font-jost">
+                      
+                      <div className='text-xl text-white'>
                         {capitalizeFirstLetter(ingredients.name)}
                       </div>
+                     
+                        <div className="flex text-sm italic text-gray-600 ">
+                        <div>{ingredients.amount}</div>
+                        <div>{ingredients.unit}</div>
+                        </div>
+                   
                     </div>
-                  ))}
+                  ))}                
                 </div>
               </div>
+              
+              
               {/* Right Card */}
-              <div className="rounded-lg overflow-hidden shadow-md bg-gray-800 text-gray-300 mx-4 my-4 p-4 w-full relative">
-                <div className="text-2xl font-bold font-jost">
-                  <div className="m-10" dangerouslySetInnerHTML={{ __html: responseFromServer.summary }} />
+              <div className='flex flex-col w-4/5'>
+              <div className="relative top-10 rounded-lg overflow-hidden shadow-md bg-gray-800 text-gray-300 mx-4 p-4 w-full">
+                <div className="text-xl font-bold font-jost">
+                  <div className="m-10" dangerouslySetInnerHTML={{ __html: responseFromServer.parsedData1.summary }} />
                 </div>
-                <div className="text-center mt-4">
-                  <button id="toggle" type="submit" onClick={() => speak(responseFromServer.summary)} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+
+                </div>
+              
+            
+            
+            
+            <div className="mt-20 flex flex-col bg-gray-800 p-4">
+            <div className='text-2xl font-jost w-full text-center mb-7 font-bold '  >Instructions</div>
+            {responseFromServer.parsedData2.instructions.map((instructions, index) => (
+                    <div key={index} className="w-full flex items-center justify-start mt-2 mb-2 font-jost">
+                      
+                      <div className='flex mb-2 font-jost '>
+                      <div className='text-xl text-white'>
+                        {instructions.number}
+                      </div>
+                     
+                 
+                        <div className='ml-5 top-2 text-xl'>{instructions.step}</div>
+                      </div>
+                      
+                     
+                    </div>
+                  ))}
+
+                  <div className="text-center mt-4">
+                  <button id="toggle" type="submit" onClick={() => speak(responseFromServer.parsedData2.instructions.step)} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
                   Get Cooking Instructions
                   </button>
                 </div>
-              </div>
+                  </div>
+                  </div>
+            
+            
+            
             </div>
+
+
+ 
           )}
         </div>
       </AnimatePresence>

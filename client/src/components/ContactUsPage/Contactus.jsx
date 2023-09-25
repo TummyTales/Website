@@ -7,8 +7,8 @@ const Contactus=()=>{
     const handleChange=(e)=>{
         const {name,value}=e.target;
         // console.log(formData);
-        setFormData((pervFormData)=>{
-            return { ...pervFormData, [name]:value,}
+        setFormData((prevFormData)=>{
+            return { ...prevFormData, [name]:value,}
 
     });
     };

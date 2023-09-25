@@ -20,7 +20,7 @@ const Footer=()=>{
         </div>
         <div className="flex flex-col basis-1/2 w-1/2 font-jost">
             <div><h1 className="relative text-center text-3xl mt-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Developers</h1></div>
-            <div className="relative flex flex-col flex-wrap justify-around mt-1 mb-4 small:mb-10">
+            <div className="relative flex flex-col flex-wrap justify-start mt-1 mb-4 small:mb-10">
             <CardInfo name="Utkarsh Singh" email="singhutkarsh.1210@gmail.com"/>
             <CardInfo name="Shreyash" email="shreyashsingh10@gmail.com"/>
             <CardInfo name="Aditya Raut" email="shreyashsingh10@gmail.com"/>

@@ -114,8 +114,9 @@ const RecipeContent = () => {
                     <div key={index} className="w-full flex items-center justify-start mt-2 mb-2 font-jost">
                       
                       <div className='flex mb-2 font-jost '>
-                      <div className='text-xl text-white'>
-                        {instructions.number}
+                      <div className='flex text-xl text-white'>
+                        <>{instructions.number}</>
+                        <>.</>
                       </div>
                      
                  

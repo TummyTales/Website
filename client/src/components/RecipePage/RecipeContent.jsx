@@ -104,9 +104,14 @@ const RecipeContent = () => {
                   </div>
                   {responseFromServer.parsedData2.instructions.map((instructions, index) => (
                     <div key={index} className="w-full flex items-center justify-start mt-2 mb-2 font-jost">
-                      <div className="flex mb-2 font-jost">
-                        <div className="text-xl text-white">{instructions.number}</div>
-                        <div className="ml-5 top-2 text-xl">{instructions.step}</div>
+                      
+                      <div className='flex mb-2 font-jost '>
+                      <div className='text-xl text-white'>
+                        {instructions.number}
+                      </div>
+                     
+                 
+                        <div className='ml-5 top-2 text-xl'>{instructions.step}</div>
                       </div>
                     </div>
                   ))}

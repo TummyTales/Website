@@ -4,7 +4,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
-const Nav = (props) =>{
+import Logo from '../General/logo';
+import StaticLogo from './StaticLogo';
+
+const Nav = ({setCacheDataReceived}) =>{
     const {loginWithRedirect,logout,user,isAuthenticated}=useAuth0();
     const [isOpen, setIsOpen] = useState(false);
     
@@ -16,23 +19,28 @@ const Nav = (props) =>{
     const locationPath = location.pathname; // Assuming you have access to the location pathname
 
     // Check if the current location pathname matches either '/' or '/About'
-    const textColorClass = locationPath === '/' || locationPath === '/about' ? 'text-white':'text-black';
+    const textColorClass = locationPath === '/' || locationPath === '/about' || locationPath.includes('/recipe') ? 'text-white':'text-black';
+    const logoColorClass = locationPath === '/' ? {firstColor:'#7b7b7d',secondColor:'white'}:{firstColor:'#202021',secondColor:'#656565'};
     
     useEffect(() => {
       // Check if authentication is complete and the user is available
-      if (isAuthenticated) {  
-        const data={email:user.email};
-        console.log('User email:', data);
-        axios.post('http://localhost:8000/login',data)
-        .then((response) => {
-          console.log(response.data);
-          props.cacheFunction(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if(setCacheDataReceived){
+        if (isAuthenticated) {  
+          const data={email:user.email};
+          console.log('User email:', data);
+          axios.post('http://localhost:8000/login',data)
+          .then((response) => {
+            if (response.data.length > 0) {
+              // Update the hook with response.data
+              setCacheDataReceived(response.data);
+            }
+            
+          })
+          .catch((error) => {
+            console.error(error);
+          });
        
-      }
+      }}
     }, [isAuthenticated,user]);
     
     
@@ -50,7 +58,7 @@ const Nav = (props) =>{
     
     return(
         <div className={`relative z-10 flex items-center justify-between mt-0 h-[60px] pl-10 pr-20 ${textColorClass}`}>
-            <Link to="/"><div className="small:text-red-400 w-1 font-fjalla text-3xl font-bold italic">TummyTales</div></Link>
+            <div className='mt-5'><Link to='/'>{locationPath==='/' || locationPath==='/contact'?<Logo colorObject={logoColorClass}/>:<StaticLogo />}</Link></div>
             <div className="flex justify-around text-xl font-fjalla small:relative small:top-10 small:justify-between">
                 <Link to="/about"> <button className="mr-20 h-full hover:font-bold">AboutUs</button></Link>
                 <Link to="/contact"><button className="h-full w-full hover:font-bold">Contact</button></Link>
